@@ -18,18 +18,10 @@ const divide = (num1, num) => {
 let sum1 = '';
 let sum2 = '';
 let operator = '';
-// const num1 = document.querySelector('.num1');
-// const num2 = document.querySelector('.num2');
-// const num3 = document.querySelector('.num3');
-// const num4 = document.querySelector('.num4');
-// const num5 = document.querySelector('.num5');
-// const num6 = document.querySelector('.num6');
-// const num7 = document.querySelector('.num7');
-// const num8 = document.querySelector('.num8');
-// const num9 = document.querySelector('.num9');
-// const num0 = document.querySelector('.num0');
 const num = [];
-// const num0 = document.querySelector('.num0');
+for (let i = 0; i < 10; i++) {
+    num[i] = document.querySelector(`.num${i}`);
+}
 const display = document.querySelector('.display');
 const minus = document.querySelector('.minus');
 const multiple = document.querySelector('.multiply');
@@ -40,7 +32,6 @@ const clearBtn = document.querySelector('.clear');
 const decimalBtn = document.querySelector('.decimal');
 const backspaceBtn = document.querySelector('.backspace');
 let equalBtnClicked = 0;
-
 
 const operate = (num1, operator, num) => {
     let sum;
@@ -57,7 +48,7 @@ const operate = (num1, operator, num) => {
 
 // Conditional added when user tries to divide by 0, to return string from divide 
 // function conditional.
-const toDecimal = (num) => {
+const roundToDecimal = (num) => {
     if (typeof num === 'string') {
         return num;
     }
@@ -69,34 +60,30 @@ const toDecimal = (num) => {
 // Added conditional so that after user clicks the equal button, they can't add numbers
 // to the calculated number, instead a new calculation starts by checking the 
 // equalBtnClicked counter.
-for (let i = 0; i < 10; i++) {
-    num[i] = document.querySelector(`.num${i}`);
-    num[i].addEventListener('click', (e) => {
-        if (operator !== '') {
-            while (display.firstChild) {
-                display.removeChild(display.lastChild);
-            }
-            sum2 += num[i].textContent;
-            display.textContent = sum2;
-        } else if (operator === '' && sum2 === '' && equalBtnClicked === 1) {
-            while (display.firstChild) {
-                display.removeChild(display.lastChild);
-            }
-            sum1 = '';
-            sum1 += num[i].textContent;
-            display.textContent = sum1;
-            equalBtnClicked = 0;
-        } else {
-            sum1 += num[i].textContent;
-            display.textContent = sum1;
+function inputNumBtn(num) {
+    if (operator !== '') {
+        while (display.firstChild) {
+            display.removeChild(display.lastChild);
         }
-    })
-
+        sum2 += num.textContent;
+        display.textContent = sum2;
+    } else if (operator === '' && sum2 === '' && equalBtnClicked === 1) {
+        while (display.firstChild) {
+            display.removeChild(display.lastChild);
+        }
+        sum1 = '';
+        sum1 += num.textContent;
+        display.textContent = sum1;
+        equalBtnClicked = 0;
+    } else {
+        sum1 += num.textContent;
+        display.textContent = sum1;
+    }
 }
 
 // Added a check for a decimal in the sum2 value, so the function doesn't execute and
 // there won't be two or more decimals in one number.
-decimalBtn.addEventListener('click', (e) => {
+function inputDecimalBtn() {
     if (sum2.includes('.')) {
         return;
     }
@@ -112,74 +99,9 @@ decimalBtn.addEventListener('click', (e) => {
         sum1 += decimalBtn.textContent;
         display.textContent = sum1;
     }
-})
-// display.textContent += `${decimalBtn.textContent}`;
+}
 
-
-minus.addEventListener('click', (e) => {
-    if (operator !== '') {
-        while (display.firstChild) {
-            display.removeChild(display.lastChild);
-        }
-        display.textContent = toDecimal(operate(sum1, operator, sum2));
-        sum1 = display.textContent;
-        operator = minus.textContent;
-        display.textContent += ` ${minus.textContent}`;
-        sum2 = '';
-    } else {
-        display.textContent += ` ${minus.textContent}`;
-        operator = minus.textContent;
-    }
-    // operator += minus.textContent;
-    // sum1 = display.textContent; 
-})
-plus.addEventListener('click', (e) => {
-    if (operator !== '') {
-        while (display.firstChild) {
-            display.removeChild(display.lastChild);
-        }
-        display.textContent = toDecimal(operate(sum1, operator, sum2));
-        sum1 = display.textContent;
-        operator = plus.textContent;
-        display.textContent += ` ${plus.textContent}`;
-        sum2 = '';
-    } else {
-        display.textContent += ` ${plus.textContent}`;
-        operator = plus.textContent;
-    }
-})
-division.addEventListener('click', (e) => {
-    if (operator !== '') {
-        while (display.firstChild) {
-            display.removeChild(display.lastChild);
-        }
-        display.textContent = toDecimal(operate(sum1, operator, sum2));
-        sum1 = display.textContent;
-        operator = division.textContent;
-        display.textContent += ` ${division.textContent}`;
-        sum2 = '';
-    } else {
-        display.textContent += ` ${division.textContent}`;
-        operator = division.textContent;
-    }
-})
-multiple.addEventListener('click', (e) => {
-    if (operator !== '') {
-        while (display.firstChild) {
-            display.removeChild(display.lastChild);
-        }
-        display.textContent = toDecimal(operate(sum1, operator, sum2));
-        sum1 = display.textContent;
-        operator = multiple.textContent;
-        display.textContent += ` ${multiple.textContent}`;
-        sum2 = '';
-    } else {
-        display.textContent += ` ${multiple.textContent}`;
-        operator = multiple.textContent;
-    }
-})
-
-backspaceBtn.addEventListener('click', (e) => {
+function inputBackspaceBtn() {
     if (operator === '' && sum2 === '' && display.textContent !== '0'){
         return;
     } else {
@@ -192,20 +114,21 @@ backspaceBtn.addEventListener('click', (e) => {
     } else if (operator !== '' && sum2 === '') {
     operator = operator.substring(0, 0);
     }
-})
-equals.addEventListener('click', (e) => {
+}
+
+function inputEqualBtn() {
     equalBtnClicked = 0;
     if (sum1 === '' || sum2 === '' || operator === '') {
         return;
     }
-    display.textContent = toDecimal(operate(sum1, operator, sum2));
+    display.textContent = roundToDecimal(operate(sum1, operator, sum2));
     sum1 = display.textContent;
     sum2 = '';
     operator = '';
     equalBtnClicked = 1;
-})
+}
 
-clearBtn.addEventListener('click', (e) => {
+function inputClearBtn() {
     sum1 = '';
     sum2 = '';
     operator = '';
@@ -213,7 +136,55 @@ clearBtn.addEventListener('click', (e) => {
         display.removeChild(display.lastChild);
     }
     display.textContent = 0;
+}
+
+function inputOperatorBtn(opera) {
+    if (operator !== '') {
+        while (display.firstChild) {
+            display.removeChild(display.lastChild);
+        }
+        display.textContent = roundToDecimal(operate(sum1, operator, sum2));
+        sum1 = display.textContent;
+        operator = opera.textContent;
+        display.textContent += ` ${opera.textContent}`;
+        sum2 = '';
+    } else {
+        display.textContent += ` ${opera.textContent}`;
+        operator = opera.textContent;
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    console.log(e);
+    if (e.key == '+') {inputOperatorBtn(plus)}
+    if (e.key == '-') {inputOperatorBtn(minus)}
+    if (e.key == '*') {inputOperatorBtn(multiple)}
+    if (e.key == '/') {inputOperatorBtn(division)}
+    if (e.key == '.') {inputDecimalBtn()}
+    if (e.key == 'Backspace') {inputBackspaceBtn()}
+    if (e.key == 'Escape') {inputClearBtn()}
+    if (e.key == 'Enter' || e.key == '=') {inputEqualBtn()}
+    for (i=0; i<10; i++) {
+        if (e.key === `${i}`) {inputNumBtn(num[i])}
+    }
 })
+
+document.addEventListener('click', (e) => {
+    if (e.target.className === 'backspace') {inputBackspaceBtn()}
+    if (e.target.className === 'minus') {inputOperatorBtn(minus)}
+    if (e.target.className === 'plus') {inputOperatorBtn(plus)}
+    if (e.target.className === 'multiply') {inputOperatorBtn(multiple)}
+    if (e.target.className === 'divide') {inputOperatorBtn(division)}
+    if (e.target.className === 'clear') {inputClearBtn()}
+    if (e.target.className === 'equals') {inputEqualBtn()}
+    if (e.target.className === 'decimal') {inputDecimalBtn()}
+    for (i=0; i<10; i++) {
+        if (e.target.className === `${num[i].className}`) {inputNumBtn(num[i])}
+    }
+})
+
+
+
 
 
 // Problems:
@@ -231,7 +202,5 @@ clearBtn.addEventListener('click', (e) => {
 // 5. If the number on the display is from clicking the equal button, then when you click
 // a number button the display should reset and show only the clicked number.
 
-if (operator === '') {
 
-}
 
