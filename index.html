@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,30 +8,57 @@
     <title>Document</title>
     <link rel="stylesheet" href="stylesheet.css">
 </head>
+
 <body>
     <div class="main">
         <div class="display">0</div>
         </table>
-        <button class="num1">1</button>
-        <button class="num2">2</button>
-        <button class="num3">3</button>
-        <button class="num4">4</button>
-        <button class="num5">5</button>
-        <button class="num6">6</button>
-        <button class="num7">7</button>
-        <button class="num8">8</button>
-        <button class="num9">9</button>
-        <button class="num0">0</button>
-        <button class="plus">+</button>
-        <button class="divide">/</button>
-        <button class="multiply">*</button>
-        <button class="minus">-</button>
-        <button class="equals">=</button>
-        <button class="clear">Clear</button>
-        <button class="decimal">.</button>
-        <button class="backspace">XXX</button>
+        <div class="row" id="row1">
+            <button class="clear">Clear</button>
+            <button class="backspace">XXX</button>
+        </div>
+        <div class="row">
+            <button id="num1" class="num">1</button>
+            <button id="num2" class="num">2</button>
+            <button id="num3" class="num">3</button>
+            <button class="operator" id="plus">+</button>
+
+        </div>
+        <div class="row">
+            <button id="num4" class="num">4</button>
+            <button id="num5" class="num">5</button>
+            <button id="num6" class="num">6</button>
+            <button class="operator" id="minus">-</button>
+
+        </div>
+        <div class="row">
+            <button id="num7" class="num">7</button>
+            <button id="num8" class="num">8</button>
+            <button id="num9" class="num">9</button>
+            <button class="operator" id="multiply">*</button>
+        </div>
+        <div class="row">
+             <button id="num0" class="num">0</button>
+            <button class="decimal">.</button>
+           <button class="equals">=</button>
+            <button class="operator" id="divide">/</button>
+        </div>
+
+
+
+        
+
+
+
+
+
+
+
+
+
 
     </div>
     <script src="app.js"></script>
 </body>
+
 </html>

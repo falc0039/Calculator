@@ -1,3 +1,56 @@
-div {
-  border: 1px solid black;
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://images.unsplash.com/photo-1635070041409-e63e783ce3c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1379&q=80");
 }
+.main {
+  margin: 100px 0 0 0;
+  width: 300px;
+  border: 5px solid gold;
+  border-radius: 5px;
+}
+
+.display {
+  border: 2px solid gold;
+  font-size: 30px;
+  height: 60px;
+  background-color: bisque;
+  padding: 5px 0 0 5px;
+}
+
+#row1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.num, .decimal, .equals {
+  padding: 10px;
+  font-size: 30px;
+  background-color: lightblue;
+  border: 1px solid gold;
+  border-radius: 5px;
+}
+
+
+
+.clear, .backspace {
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid gold;
+  background-color: #0e6b95;
+  color: white;
+}
+
+.operator, .equals {
+  font-size: 30px;
+  background-color: #c51414;
+  border-radius: 5px;
+  border: 1px solid gold;
+}
+

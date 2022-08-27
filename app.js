@@ -5,7 +5,8 @@ const subtract = (num1, num) => {
     return num1 - num;
 }
 const multiply = (num1, num) => {
-    return num1 * num;
+    console.log(num1, num)
+    return parseFloat(num1) * parseFloat(num);
 }
 const divide = (num1, num) => {
     if (num === '0') {
@@ -15,18 +16,19 @@ const divide = (num1, num) => {
     }
 }
 
+let sum;
 let sum1 = '';
 let sum2 = '';
 let operator = '';
 const num = [];
 for (let i = 0; i < 10; i++) {
-    num[i] = document.querySelector(`.num${i}`);
+    num[i] = document.querySelector(`#num${i}`);
 }
 const display = document.querySelector('.display');
-const minus = document.querySelector('.minus');
-const multiple = document.querySelector('.multiply');
-const division = document.querySelector('.divide');
-const plus = document.querySelector('.plus');
+const minus = document.querySelector('#minus');
+const multiple = document.querySelector('#multiply');
+const division = document.querySelector('#divide');
+const plus = document.querySelector('#plus');
 const equals = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
 const decimalBtn = document.querySelector('.decimal');
@@ -34,10 +36,11 @@ const backspaceBtn = document.querySelector('.backspace');
 let equalBtnClicked = 0;
 
 const operate = (num1, operator, num) => {
-    let sum;
+    console.log(num1, operator, num);
     if (operator === '/') {
         return divide(num1, num);
     } else if (operator === '*') {
+        console.log(multiply(num1, num));
         return multiply(num1, num);
     } else if (operator === '+') {
         return add(num1, num);
@@ -51,10 +54,11 @@ const operate = (num1, operator, num) => {
 const roundToDecimal = (num) => {
     if (typeof num === 'string') {
         return num;
-    }
+    } else {
     return new Intl.NumberFormat('en-US', {
         maximumFractionDigits: 5
     }).format(num);
+}
 }
 
 // Added conditional so that after user clicks the equal button, they can't add numbers
@@ -143,7 +147,9 @@ function inputOperatorBtn(opera) {
         while (display.firstChild) {
             display.removeChild(display.lastChild);
         }
-        display.textContent = roundToDecimal(operate(sum1, operator, sum2));
+        sum = operate(sum1, operator, sum2);
+        console.log(sum);
+        display.textContent = roundToDecimal(sum);
         sum1 = display.textContent;
         operator = opera.textContent;
         display.textContent += ` ${opera.textContent}`;
@@ -152,6 +158,7 @@ function inputOperatorBtn(opera) {
         display.textContent += ` ${opera.textContent}`;
         operator = opera.textContent;
     }
+    
 }
 
 document.addEventListener('keydown', (e) => {
@@ -171,15 +178,15 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('click', (e) => {
     if (e.target.className === 'backspace') {inputBackspaceBtn()}
-    if (e.target.className === 'minus') {inputOperatorBtn(minus)}
-    if (e.target.className === 'plus') {inputOperatorBtn(plus)}
-    if (e.target.className === 'multiply') {inputOperatorBtn(multiple)}
-    if (e.target.className === 'divide') {inputOperatorBtn(division)}
+    if (e.target.id === 'minus') {inputOperatorBtn(minus)}
+    if (e.target.id === 'plus') {inputOperatorBtn(plus)}
+    if (e.target.id === 'multiply') {inputOperatorBtn(multiple)}
+    if (e.target.id === 'divide') {inputOperatorBtn(division)}
     if (e.target.className === 'clear') {inputClearBtn()}
     if (e.target.className === 'equals') {inputEqualBtn()}
     if (e.target.className === 'decimal') {inputDecimalBtn()}
     for (i=0; i<10; i++) {
-        if (e.target.className === `${num[i].className}`) {inputNumBtn(num[i])}
+        if (e.target.id === `${num[i].id}`) {inputNumBtn(num[i])}
     }
 })
 
@@ -201,6 +208,6 @@ document.addEventListener('click', (e) => {
 // 4. You shouldn't be able to click an operator when there is an operator on the display.
 // 5. If the number on the display is from clicking the equal button, then when you click
 // a number button the display should reset and show only the clicked number.
-
-
+// 6. Look at the divide calculation, it throws up an error in many calcul
+// 7. When operator is clicked, clicking operator btn again throws up an error.
 
