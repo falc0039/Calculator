@@ -6,7 +6,7 @@ const subtract = (num1, num) => {
 }
 const multiply = (num1, num) => {
     console.log(num1, num)
-    return parseFloat(num1) * parseFloat(num);
+    return num1 * num;
 }
 const divide = (num1, num) => {
     if (num === '0') {
@@ -16,7 +16,6 @@ const divide = (num1, num) => {
     }
 }
 
-let sum;
 let sum1 = '';
 let sum2 = '';
 let operator = '';
@@ -55,10 +54,8 @@ const roundToDecimal = (num) => {
     if (typeof num === 'string') {
         return num;
     } else {
-    return new Intl.NumberFormat('en-US', {
-        maximumFractionDigits: 5
-    }).format(num);
-}
+        return new Intl.NumberFormat('en-US', { maximumFractionDigits: 3 }).format(num);
+    }
 }
 
 // Added conditional so that after user clicks the equal button, they can't add numbers
@@ -106,27 +103,38 @@ function inputDecimalBtn() {
 }
 
 function inputBackspaceBtn() {
-    if (operator === '' && sum2 === '' && display.textContent !== '0'){
+    if (operator === '' && sum2 === '' && display.textContent !== '0') {
         return;
-    } else {
-    display.textContent = display.textContent.substring(0, display.textContent.length-1);
-    }
-    if (operator === '') {
-    sum1 = sum1.substring(0, sum1.length-1);
-    } else if (operator !== '') {
-    sum2 = sum2.substring(0, sum2.length-1);
+    } else if (operator === '') {
+        sum1 = sum1.substring(0, sum1.length - 1);
+        display.textContent = display.textContent.substring(0, display.textContent.length - 1);
     } else if (operator !== '' && sum2 === '') {
-    operator = operator.substring(0, 0);
+        operator = operator.substring(0, 0);
+        display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+    } else if (operator !== '') {
+        sum2 = sum2.substring(0, sum2.length - 1);
+        display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+    } else {
+        display.textContent = display.textContent.substring(0, display.textContent.length - 1);
     }
+    
 }
 
+// Made sum1 equal to operate function with current parameters. Then made
+// display.textContent value be the roundToDecimal function called on the 
+// calculated sum1. It previously gave an error when the result of the previous
+// calculation was larger than 1000, and had a comma in it. In the operate function
+// the comma wasn't recognized as a number, so the result became NaN or a wrong
+// number. This way there's no commas in the calculated number stored in sum1 and
+// the result is still displayed with commas in the calculator.
 function inputEqualBtn() {
     equalBtnClicked = 0;
     if (sum1 === '' || sum2 === '' || operator === '') {
         return;
     }
-    display.textContent = roundToDecimal(operate(sum1, operator, sum2));
-    sum1 = display.textContent;
+    sum1 = operate(sum1, operator, sum2);
+    display.textContent = roundToDecimal(sum1);
+    console.log(sum1);
     sum2 = '';
     operator = '';
     equalBtnClicked = 1;
@@ -147,10 +155,8 @@ function inputOperatorBtn(opera) {
         while (display.firstChild) {
             display.removeChild(display.lastChild);
         }
-        sum = operate(sum1, operator, sum2);
-        console.log(sum);
-        display.textContent = roundToDecimal(sum);
-        sum1 = display.textContent;
+        sum1 = operate(sum1, operator, sum2);
+        display.textContent = roundToDecimal(sum1);
         operator = opera.textContent;
         display.textContent += ` ${opera.textContent}`;
         sum2 = '';
@@ -158,35 +164,35 @@ function inputOperatorBtn(opera) {
         display.textContent += ` ${opera.textContent}`;
         operator = opera.textContent;
     }
-    
+
 }
 
 document.addEventListener('keydown', (e) => {
     console.log(e);
-    if (e.key == '+') {inputOperatorBtn(plus)}
-    if (e.key == '-') {inputOperatorBtn(minus)}
-    if (e.key == '*') {inputOperatorBtn(multiple)}
-    if (e.key == '/') {inputOperatorBtn(division)}
-    if (e.key == '.') {inputDecimalBtn()}
-    if (e.key == 'Backspace') {inputBackspaceBtn()}
-    if (e.key == 'Escape') {inputClearBtn()}
-    if (e.key == 'Enter' || e.key == '=') {inputEqualBtn()}
-    for (i=0; i<10; i++) {
-        if (e.key === `${i}`) {inputNumBtn(num[i])}
+    if (e.key == '+') { inputOperatorBtn(plus) }
+    if (e.key == '-') { inputOperatorBtn(minus) }
+    if (e.key == '*') { inputOperatorBtn(multiple) }
+    if (e.key == '/') { inputOperatorBtn(division) }
+    if (e.key == '.') { inputDecimalBtn() }
+    if (e.key == 'Backspace') { inputBackspaceBtn() }
+    if (e.key == 'Escape') { inputClearBtn() }
+    if (e.key == 'Enter' || e.key == '=') { inputEqualBtn() }
+    for (i = 0; i < 10; i++) {
+        if (e.key === `${i}`) { inputNumBtn(num[i]) }
     }
 })
 
 document.addEventListener('click', (e) => {
-    if (e.target.className === 'backspace') {inputBackspaceBtn()}
-    if (e.target.id === 'minus') {inputOperatorBtn(minus)}
-    if (e.target.id === 'plus') {inputOperatorBtn(plus)}
-    if (e.target.id === 'multiply') {inputOperatorBtn(multiple)}
-    if (e.target.id === 'divide') {inputOperatorBtn(division)}
-    if (e.target.className === 'clear') {inputClearBtn()}
-    if (e.target.className === 'equals') {inputEqualBtn()}
-    if (e.target.className === 'decimal') {inputDecimalBtn()}
-    for (i=0; i<10; i++) {
-        if (e.target.id === `${num[i].id}`) {inputNumBtn(num[i])}
+    if (e.target.className === 'backspace') { inputBackspaceBtn() }
+    if (e.target.id === 'minus') { inputOperatorBtn(minus) }
+    if (e.target.id === 'plus') { inputOperatorBtn(plus) }
+    if (e.target.id === 'multiply') { inputOperatorBtn(multiple) }
+    if (e.target.id === 'divide') { inputOperatorBtn(division) }
+    if (e.target.className === 'clear') { inputClearBtn() }
+    if (e.target.className === 'equals') { inputEqualBtn() }
+    if (e.target.className === 'decimal') { inputDecimalBtn() }
+    for (i = 0; i < 10; i++) {
+        if (e.target.id === `${num[i].id}`) { inputNumBtn(num[i]) }
     }
 })
 

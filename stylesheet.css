@@ -8,14 +8,14 @@ body {
 .main {
   margin: 100px 0 0 0;
   width: 300px;
-  border: 5px solid gold;
+  border: 10px solid #d4af37;
   border-radius: 5px;
 }
 
 .display {
-  border: 2px solid gold;
+  border: 2px solid #d4af37;
   font-size: 30px;
-  height: 60px;
+  height: fit-content;
   background-color: bisque;
   padding: 5px 0 0 5px;
 }
@@ -32,9 +32,11 @@ body {
 .num, .decimal, .equals {
   padding: 10px;
   font-size: 30px;
-  background-color: lightblue;
-  border: 1px solid gold;
+  background-color: rgb(173, 216, 230);
+  border: 1px solid #d4af37;
   border-radius: 5px;
+  color: white;
+  transition: opacity 0.15s;
 }
 
 
@@ -42,15 +44,23 @@ body {
 .clear, .backspace {
   padding: 10px;
   font-size: 20px;
-  border: 1px solid gold;
+  border: 1px solid #d4af37;
   background-color: #0e6b95;
   color: white;
+  transition: opacity 0.15s;
 }
 
 .operator, .equals {
   font-size: 30px;
   background-color: #c51414;
   border-radius: 5px;
-  border: 1px solid gold;
+  border: 1px solid #d4af37;
+  color: white;
+  transition: opacity 0.15s;
+}
+
+.row button:active{
+/* :rgba(173, 216, 230, 0.8); */ 
+opacity: 0.5;
 }
 
